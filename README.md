@@ -1,73 +1,94 @@
-# React + TypeScript + Vite
+# 💸 Paytm Clone — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Paytm-inspired payments app frontend built with React 19, TypeScript, and Vite. Features authentication, a user dashboard, peer-to-peer money transfers, protected routing, and lazy-loaded pages.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** with TypeScript
+- **Vite 8** — lightning-fast dev server & build tool
+- **React Router v7** — client-side routing with protected routes
+- **ESLint** — code linting
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── api/                  # API service layer
+├── assets/               # Static assets (images, SVGs)
+├── components/           # Reusable UI components
+├── pages/
+│   ├── auth/             # Login & SignUp pages
+│   ├── context/          # React context providers
+│   ├── dashboard/        # User dashboard
+│   ├── sendMoney/        # P2P money transfer
+│   └── LazyLoadedPages/  # Code-split lazy-loaded pages
+├── routes/
+│   ├── AppRoutes.tsx     # Route definitions & Navbar
+│   └── ProtectedRoute.tsx# Auth guard (token-based)
+├── types/                # TypeScript type definitions
+├── App.tsx               # Root component
+└── main.tsx              # Entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js ≥ 18
+- npm
+
+### Installation
+
+```bash
+git clone <repo-url>
+cd paytmFrontend
+npm install
 ```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Opens at [http://localhost:5173](http://localhost:5173)
+
+### Build
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+## Routes
+
+| Path         | Access    | Description          |
+| ------------ | --------- | -------------------- |
+| `/login`     | Public    | Login page           |
+| `/signup`    | Public    | Sign up page         |
+| `/dashboard` | Protected | User dashboard       |
+| `/send`      | Protected | Send money page      |
+| `/lazyLoad`  | Protected | Lazy-loaded demo page|
+
+Protected routes require a valid `token` in localStorage. Unauthenticated users are redirected to `/`.
+
+## Key Features
+
+- **Token-based auth guard** — ProtectedRoute checks localStorage for a JWT before rendering child routes
+- **Lazy loading** — Code-split pages via `React.lazy()` + `Suspense` for better initial load performance
+- **Modular architecture** — Pages, routes, API layer, and types are cleanly separated
+
+## License
+
+This project is for educational/study purposes.
