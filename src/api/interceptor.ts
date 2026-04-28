@@ -1,13 +1,22 @@
+import { AxiosHeaders, type InternalAxiosRequestConfig } from "axios";
+import { tokenService } from "../utils/tokenService";
 import { axiosInstance } from "./axiosInstance";
+import { AUTH_EXCLUDE_ROUTES } from "./constants";
 
 axiosInstance.interceptors.request.use(
-  (config) => {
-    //modify the request here
-    console.log("Request send", {
-      url: config.url,
-      method: config.method,
-      data: config.data,
-    });
+  (config: InternalAxiosRequestConfig) => {
+    const isPublicRoute = AUTH_EXCLUDE_ROUTES.some((route) =>
+      config.url?.includes(route),
+    );
+
+    if (!isPublicRoute) {
+      const token = tokenService.getAccessToken();
+
+      if (token) {
+        config.headers ??= new AxiosHeaders();
+        config.headers.set("Authorization", `Bearer ${token}`);
+      }
+    }
     return config;
   },
   (error) => {
